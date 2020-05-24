@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: pentaho-kettle:kettle-db:4.4.0-stable">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/pentaho-kettle/kettle-db/4.4.0-stable/kettle-db-4.4.0-stable.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/pentaho-kettle/kettle-db/4.4.0-stable/kettle-db-4.4.0-stable-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/pentaho-kettle/kettle-db/4.4.0-stable/kettle-db-4.4.0-stable-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

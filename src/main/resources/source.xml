@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<connection>
+        <name>kettle</name>
+        <server>127.0.0.1</server>
+        <type>Mysql</type>
+        <access>Native</access>
+        <database>test_db</database>
+        <port>3306</port>
+        <username>root</username>
+        <password>123456</password>
+        <attributes>
+            <attribute>
+                <code>USE_POOLING</code>
+                <attribute>Y</attribute>
+            </attribute>
+            <attribute>
+                <code>EXTRA_OPTION_MYSQL.characterEncoding</code>
+                <attribute>utf8</attribute>
+            </attribute>
+            <attribute>
+                <code>EXTRA_OPTION_MYSQL.defaultFetchSize</code>
+                <attribute>500</attribute>
+            </attribute>
+        </attributes>
+</connection>

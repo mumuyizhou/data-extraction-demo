@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: pentaho:pentaho-big-data-api-hdfs:8.0.0.4-247">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/pentaho/pentaho-big-data-api-hdfs/8.0.0.4-247/pentaho-big-data-api-hdfs-8.0.0.4-247.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/pentaho/pentaho-big-data-api-hdfs/8.0.0.4-247/pentaho-big-data-api-hdfs-8.0.0.4-247-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/pentaho/pentaho-big-data-api-hdfs/8.0.0.4-247/pentaho-big-data-api-hdfs-8.0.0.4-247-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<connection>
+    <name>source</name>
+    <server>192.168.50.182</server>
+    <type>MySQL</type>
+    <access>Native</access>
+    <database>student</database>
+    <port>3306</port>
+    <username>root</username>
+    <password>123456</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+        <attribute>
+            <code>EXTRA_OPTION_MYSQL.defaultFetchSize</code>
+            <attribute>500</attribute>
+        </attribute>
+        <attribute>
+            <code>EXTRA_OPTION_MYSQL.useCursorFetch</code>
+            <attribute>true</attribute>
+        </attribute>
+        <attribute>
+            <code>EXTRA_OPTION_MYSQL.useSSL</code>
+            <attribute>false</attribute>
+        </attribute>
+        <attribute>
+            <code>EXTRA_OPTION_MYSQL.useUnicode</code>
+            <attribute>true</attribute>
+        </attribute>
+        <attribute>
+            <code>EXTRA_OPTION_MYSQL.characterEncoding</code>
+            <attribute>UTF-8</attribute>
+        </attribute>
+    </attributes>
+</connection>
+

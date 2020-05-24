@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: org.pentaho:pentaho-hadoop-shims-api:8.0-SNAPSHOT">
+    <CLASSES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/pentaho/pentaho-hadoop-shims-api/8.0-SNAPSHOT/pentaho-hadoop-shims-api-8.0-20180413.035140-366.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$MAVEN_REPOSITORY$/org/pentaho/pentaho-hadoop-shims-api/8.0-SNAPSHOT/pentaho-hadoop-shims-api-8.0-20180413.035140-366-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$MAVEN_REPOSITORY$/org/pentaho/pentaho-hadoop-shims-api/8.0-SNAPSHOT/pentaho-hadoop-shims-api-8.0-20180413.035140-366-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
