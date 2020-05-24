@@ -30,7 +30,7 @@ public class DataExtraction {
 			ExecuteExtraction extraction = new ExecuteExtraction();
 			client.initKettleEnvironment(null);
 			//  此处为上例的数据库配置
-			String transXML = "source.xml";
+			String transXML = "db/source.xml";
 			TransMeta meta = metaInitiator.buildTransMeta("kettle", transXML);
 			PluginRegistry registry = registor.getRegistry();
 			StepMeta step1 = input.setTableInputStep(meta, registry, "kettle", "select * from test1", "table input");

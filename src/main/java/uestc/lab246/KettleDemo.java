@@ -36,10 +36,10 @@ import org.pentaho.di.trans.steps.textfileoutput.TextFileField;
  * @date 2020-05-24
  */
 public class KettleDemo {
-	//存放读取到的xml字符串
+	/*存放读取到的xml字符串*/
 	private static String[] databasesXML;
-	//kettle插件的位置
-	private static final String KETTLE_PLUGIN_BASE_FOLDER = "D:/IdeaProj/data-extraction/plugins";
+	/*kettle插件的位置*/
+	private static final String KETTLE_PLUGIN_BASE_FOLDER = "C:/code/data-extraction-demo/plugins";
 
 	public static void main(String[] args) throws KettleException, IOException {
 		// 这几句必须有, 官网例子是错的, 用来加载插件的
@@ -75,7 +75,7 @@ public class KettleDemo {
 //				new String[]{"id", "name"}
 //		);
 		// 把以上transform保存到文件, 这样可以用Spoon打开,检查下有没有问题
-		String fileName = "C:/Users/uestc/Desktop/test.ktr";
+		String fileName = "C:/Users/zhoup/Desktop/test.ktr";
 		String xml = transMeta.getXML();
 		DataOutputStream dos = new DataOutputStream(new FileOutputStream(new File(fileName)));
 		dos.write(xml.getBytes("UTF-8"));
@@ -89,7 +89,7 @@ public class KettleDemo {
 		targetDatabase.execStatements(sql);
 		// 执行transformation...
 		Trans trans = new Trans(transMeta);
-		trans.execute(new String[]{"start..."});
+		trans.execute(new String[]{"id", "name", "gender"});
 		trans.waitUntilFinished();
 		//  断开数据库连接
 		targetDatabase.disconnect();
@@ -142,10 +142,12 @@ public class KettleDemo {
 			SelectValuesMeta svi = new SelectValuesMeta();
 			//配置字段名修改的规则, 这里跟官方例子差别很大, 坑不少
 			svi.allocate(sourceFields.length, 0, 0);
-			for (int i = 0; i < sourceFields.length; i++) {
-				svi.getSelectName()[i] = sourceFields[i];
-				svi.getSelectRename()[i] = targetFields[i];
-			}
+//			for (int i = 0; i < sourceFields.length; i++) {
+//				svi.getSelectName()[i] = sourceFields[i];
+//				svi.getSelectRename()[i] = targetFields[i];
+//			}
+			svi.setSelectName(sourceFields);
+			svi.setSelectRename(targetFields);
 			String selStepName = "Rename field names";
 			StepMeta selStep = new StepMeta(selStepName, svi);
 			//以下几句是给Spoon看的, 用处不大
@@ -172,8 +174,7 @@ public class KettleDemo {
 			toStep.setDescription("Write information to table [" + targetTableName + "] on database [" + targetDBInfo + "]");
 			transMeta.addStep(toStep);
 			// 建立修改字段名step到输出到数据库step的连接
-			TransHopMeta hi = new TransHopMeta(selStep, toStep);
-			transMeta.addTransHop(hi);
+			transMeta.addTransHop(new TransHopMeta(selStep, toStep));
 			// 返回
 			return transMeta;
 		} catch (Exception e) {
