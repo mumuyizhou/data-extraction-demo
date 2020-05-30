@@ -4,6 +4,7 @@ import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -38,13 +39,15 @@ import org.pentaho.di.trans.steps.textfileoutput.TextFileField;
 public class KettleDemo {
 	/*存放读取到的xml字符串*/
 	private static String[] databasesXML;
-	/*kettle插件的位置*/
-	private static final String KETTLE_PLUGIN_BASE_FOLDER = "C:/code/data-extraction-demo/plugins";
+	//kettle插件的位置
+	private static final String KETTLE_PLUGIN_BASE_FOLDER = "\\plugins";
 
 	public static void main(String[] args) throws KettleException, IOException {
 		// 这几句必须有, 官网例子是错的, 用来加载插件的
 		System.setProperty("hadoop.home.dir", "/");
-		StepPluginType.getInstance().getPluginFolders().add(new PluginFolder(KETTLE_PLUGIN_BASE_FOLDER, true, true));
+		StepPluginType.getInstance().getPluginFolders().add(new PluginFolder(
+				System.getProperty("user.dir") + KETTLE_PLUGIN_BASE_FOLDER,
+				true, true));
 		EnvUtil.environmentInit();
 		KettleEnvironment.init();
 		// 加载db目录下的所有存放数据库配置的xml文件
@@ -64,27 +67,27 @@ public class KettleDemo {
 				"source",
 				"stuInfo",
 				new String[]{"id", "name", "gender"},
-				"target",
+				"postgres",
 				"stuInfo",
-				new String[]{"id", "name", "gender"}
+				new String[]{"id", "name", "sex"}
 		);
 //		TransMeta transMeta = buildCopyTableToHDFS(
 //				"trans",
-//				"235test",
-//				"user",
-//				new String[]{"id", "name"}
+//				"source",
+//				"student",
+//				new String[]{"id", "name","gender"}
 //		);
 		// 把以上transform保存到文件, 这样可以用Spoon打开,检查下有没有问题
-		String fileName = "C:/Users/zhoup/Desktop/test.ktr";
+		String fileName = "C:/Users/uestc/Desktop/test.ktr";
 		String xml = transMeta.getXML();
 		DataOutputStream dos = new DataOutputStream(new FileOutputStream(new File(fileName)));
-		dos.write(xml.getBytes("UTF-8"));
+		dos.write(xml.getBytes(StandardCharsets.UTF_8));
 		dos.close();
 		System.out.println("Saved transformation to file: " + fileName);
 		// 生成SQL,用于创建表(如果不存在的话)
 		String sql = transMeta.getSQLStatementsString();
 		// 执行以上SQL语句创建表
-		Database targetDatabase = new Database(transMeta.findDatabase("target"));
+		Database targetDatabase = new Database(transMeta, transMeta.findDatabase("target"));
 		targetDatabase.connect();
 		targetDatabase.execStatements(sql);
 		// 执行transformation...
@@ -142,10 +145,6 @@ public class KettleDemo {
 			SelectValuesMeta svi = new SelectValuesMeta();
 			//配置字段名修改的规则, 这里跟官方例子差别很大, 坑不少
 			svi.allocate(sourceFields.length, 0, 0);
-//			for (int i = 0; i < sourceFields.length; i++) {
-//				svi.getSelectName()[i] = sourceFields[i];
-//				svi.getSelectRename()[i] = targetFields[i];
-//			}
 			svi.setSelectName(sourceFields);
 			svi.setSelectRename(targetFields);
 			String selStepName = "Rename field names";
@@ -182,6 +181,15 @@ public class KettleDemo {
 		}
 	}
 
+	/**
+	 *  存储到HDFS
+	 * @param transformationName
+	 * @param sourceDatabaseName
+	 * @param sourceTableName
+	 * @param sourceFields
+	 * @return
+	 * @throws KettleException
+	 */
 	private static TransMeta buildCopyTableToHDFS(String transformationName,
 												  String sourceDatabaseName, String sourceTableName, String[] sourceFields)
 			throws KettleException {
@@ -213,7 +221,7 @@ public class KettleDemo {
 			NamedClusterManager clusterManager = new NamedClusterManager();
 			NamedCluster cluster = new NamedClusterImpl();
 			cluster.setStorageScheme("hdfs");
-			cluster.setHdfsHost("bitest01");
+			cluster.setHdfsHost("slave-2");
 			cluster.setHdfsPort("8020");
 			cluster.setName("cloudera");
 			cluster.setHdfsUsername("");
@@ -243,5 +251,18 @@ public class KettleDemo {
 		} catch (Exception e) {
 			throw new KettleException("An unexpected error occurred creating the new transformation", e);
 		}
+	}
+
+	private TransMeta buildCopyTableToHbase(String transformationName, String sourceDatabaseName,
+											String sourceTableName, String[] sourceFields) throws KettleException {
+		TransMeta transMeta = new TransMeta();
+		transMeta.setName(transformationName);
+		for (String aDatabaseXml : databasesXML) {
+			DatabaseMeta databaseMeta = new DatabaseMeta(aDatabaseXml);
+			transMeta.addDatabase(databaseMeta);
+		}
+		DatabaseMeta sourceDBInfo = transMeta.findDatabase(sourceDatabaseName);
+
+		return null;
 	}
 }
